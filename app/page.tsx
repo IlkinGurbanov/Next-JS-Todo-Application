@@ -187,63 +187,76 @@ export default function TodoApp() {
           </div>
 
           {/* Table Header */}
-          <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
-            <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-600">
-              <div className="col-span-1"></div>
-              <div className="col-span-5 flex items-center gap-2">
-                <span>Task name</span>
-              </div>
-              <div className="col-span-3 flex items-center gap-2">
-                <Users className="w-4 h-4" />
-                <span>Assign</span>
-              </div>
-              <div className="col-span-3 flex items-center gap-2">
-                <span>Due</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Task List */}
-          <div className="divide-y divide-gray-100">
-            {filteredTasks.map((task) => (
-              <div key={task.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
-                <div className="grid grid-cols-12 gap-4 items-center">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-300">
+                <th className="w-12 px-4 py-1 text-left border-r border-gray-300"></th>
+                <th className="px-4 py-1 text-left border-r border-gray-300">
+                  <div className="flex items-center gap-2 text-xs font-medium text-gray-600">
+                    <span>Task name</span>
+                  </div>
+                </th>
+                <th className="px-4 py-1 text-left border-r border-gray-300">
+                  <div className="flex items-center gap-2 text-xs font-medium text-gray-600">
+                    <Users className="w-3 h-3" />
+                    <span>Assign</span>
+                  </div>
+                </th>
+                <th className="px-4 py-1 text-left">
+                  <div className="flex items-center gap-2 text-xs font-medium text-gray-600">
+                    <span>Due</span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredTasks.map((task) => (
+                <tr
+                  key={task.id}
+                  className="hover:bg-gray-50 transition-colors border-b border-gray-200 last:border-b-0"
+                >
                   {/* Checkbox */}
-                  <div className="col-span-1">
+                  <td className="w-12 px-4 py-1 border-r border-gray-300">
                     <Checkbox
                       checked={task.completed}
                       onCheckedChange={() => toggleTask(task.id)}
-                      className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                      className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 w-4 h-4"
                     />
-                  </div>
+                  </td>
 
                   {/* Task Name */}
-                  <div className="col-span-5 flex items-center gap-3">
-                    {task.icon}
-                    <span className={`font-medium ${task.completed ? "line-through text-gray-500" : "text-gray-900"}`}>
-                      {task.name}
-                    </span>
-                  </div>
+                  <td className="px-4 py-1 border-r border-gray-300">
+                    <div className="flex items-center gap-2">
+                      {task.icon}
+                      <span
+                        className={`text-xs font-medium ${task.completed ? "line-through text-gray-500" : "text-gray-900"}`}
+                      >
+                        {task.name}
+                      </span>
+                    </div>
+                  </td>
 
                   {/* Assignee */}
-                  <div className="col-span-3 flex items-center gap-3">
-                    <Avatar className="w-8 h-8">
-                      <AvatarImage src={task.assignee.avatar || "/placeholder.svg"} alt={task.assignee.name} />
-                      <AvatarFallback className="text-xs bg-gray-100 text-gray-600">
-                        {task.assignee.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="text-gray-700 font-medium">{task.assignee.name}</span>
-                  </div>
+                  <td className="px-4 py-1 border-r border-gray-300">
+                    <div className="flex items-center gap-2">
+                      <Avatar className="w-6 h-6">
+                        <AvatarImage src={task.assignee.avatar || "/placeholder.svg"} alt={task.assignee.name} />
+                        <AvatarFallback className="text-xs bg-gray-100 text-gray-600">
+                          {task.assignee.initials}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-gray-700 font-medium text-xs">{task.assignee.name}</span>
+                    </div>
+                  </td>
 
                   {/* Due Date */}
-                  <div className="col-span-3">
-                    {task.dueDate && <span className="text-gray-600">{task.dueDate}</span>}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                  <td className="px-4 py-1">
+                    {task.dueDate && <span className="text-gray-600 text-xs">{task.dueDate}</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
