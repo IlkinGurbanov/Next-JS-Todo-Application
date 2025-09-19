@@ -111,6 +111,7 @@ const initialTasks: Task[] = [
 export default function TodoApp() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks)
   const [searchTerm, setSearchTerm] = useState("")
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false)
 
   const toggleTask = (taskId: string) => {
     setTasks(tasks.map((task) => (task.id === taskId ? { ...task, completed: !task.completed } : task)))
@@ -154,13 +155,32 @@ export default function TodoApp() {
                   Sort
                 </Button>
                 <div className="relative">
-                  <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <Input
-                    placeholder="Search tasks..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-9 w-64 h-9"
-                  />
+                  {!isSearchExpanded ? (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsSearchExpanded(true)}
+                      className="text-gray-600 hover:text-gray-900 p-2"
+                    >
+                      <Search className="w-4 h-4" />
+                    </Button>
+                  ) : (
+                    <div className="relative">
+                      <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <Input
+                        placeholder="Search tasks..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onBlur={() => {
+                          if (!searchTerm) {
+                            setIsSearchExpanded(false)
+                          }
+                        }}
+                        className="pl-9 w-64 h-9"
+                        autoFocus
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
